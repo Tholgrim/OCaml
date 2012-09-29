@@ -15,5 +15,5 @@ let rec koch x1 y1 x5 y5 = function
 					koch x4 y4 x5 y5 (n-1);;
 
 koch 300 530 900 530 4;;
-koch 900 530 600 150 4;;
-koch 600 150 300 530 4;;
+koch 900 530 600 10 4;;
+koch 600 10 300 530 4;;
