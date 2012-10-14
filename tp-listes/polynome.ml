@@ -4,40 +4,38 @@
     
 let rec power x = function
     | n when n<0 -> invalid_arg "puissance negative"
-    | 0 -> 0
+    | 0 -> 1
     | n -> x * power x (n-1);;
     
 let rec application poly x = match poly with
     | [] -> 0
     | (a,n)::l -> a*(power x n) + (application l x);;
     
-    (* 2.3 Addition et soustraction *)
-    
-let rec add a b = match (a,b) with
-    | (l,[]) | ([],l) -> l
-    | ((x1,y1)::l1,(x2,y2)::l2) ->
-        if y1=y2 then
-            if x1+x2 = 0 then
-                (add l1 l2)
-            else
-                (x1+x2,y1)::(add l1 l2)
-        else
-            if y1>y2 then
-                (x1,y1)::(add l1 ((x2,y2)::l2))
-            else
-                (x2,y2)::(add ((x1,y1)::l1) l2);;
+        (* 2.3 Addition et soustraction *)
+  
+let rec add poly1 poly2 = match (poly1, poly2) with
+        | (l, []) | ([], l) -> l
+        | ((a1, n1) :: l1, (a2, n2) :: l2) ->
+                match (a1 + a2, n1 - n2) with
+                        | (0, 0) -> add l1 l2
+                        | (_, 0) -> (a1 + a2, n1) :: (add l1 l2)
+                        | (_, n) when n > 0 -> (a2, n2) :: add poly1 l2
+                        | _ -> (a1, n1) :: add l1 poly2;;
 
-let rec soustract a b = match (a,b) with
-    | (l,[]) -> l
-    | ([],(x2,y2)::l) -> (-x2,y2)::(soustract [] l)
-    | ((x1,y1)::l1,(x2,y2)::l2) ->
-        if y1=y2 then
-            if x1-x2 = 0 then
-                (soustract l1 l2)
-           else
-                (x1-x2,y1)::(soustract l1 l2)
-        else
-            if y1>y2 then
-                (-x2,y2)::(soustract a l2)
-            else
-                (x1,y1)::(soustract l1 b);;
+let rec soustract a b = match (a, b) with
+        | (l, []) -> l
+        | ([], (a2, n2) :: l) -> (-a2, n2) :: (soustract [] l)
+        | ((a1, n1) :: l1, (a2, n2) :: l2) ->
+                match (a1 - a2, n1 - n2) with
+                        | (0, 0) -> soustract l1 l2
+                        | (_, 0) -> (a1 - a2, n1) :: soustract l1 l2
+                        | (_, n) when n > 0 -> (-a2, n2) :: soustract a l2
+                        | _ -> (a1, n1) :: soustract l1 b;;
+
+        (* 2.4 Derivation *)
+
+let rec deriv = function
+	| [] -> []
+	| (a,n)::p when n=0 -> deriv p
+	| (a,n)::p -> (a*n,n-1)::(deriv p);;
+

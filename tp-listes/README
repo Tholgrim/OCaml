@@ -1,0 +1,4 @@
+Remarques {
+	Dans l'exercice 3.3 , la contrainte de type de l'ennoncer nous oblige a ne plus etre sensible a la casse. Pas cool ca !
+	Pis, dans l'exercice 3.1 on attend de nous un type 'a -> ('a * 'b) list -> 'b alors que l'utilisation de la methode lowercase nous force a remplacer les 'a du type par des string.
+}
