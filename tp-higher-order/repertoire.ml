@@ -44,13 +44,11 @@ let rec for_all p = function
 
 let upper_case c = match int_of_char c with
         | n when n > 64 && n < 91 -> char_of_int n
-        | n when n > 96 && n < 123 -> char_of_int (n - 32)
-        | _ -> failwith "Nope";;
+        | _ -> char_of_int (n - 32)
 
 let lower_case c = match int_of_char c with
         | n when n > 64 && n < 91 -> char_of_int (n + 32)
-        | n when n > 96 && n < 123 -> char_of_int n
-        | _ -> failwith "Nope";;
+        | _ -> char_of_int n
         
                 (* 3.4 Strings Handling *)
 
@@ -77,9 +75,17 @@ let convert_first_maj s =
         (* 4. Directory Creation *)
 
 let create_contact (name,age,adress,phone):contact = 
-        (convert_first_maj (string_lowercase name),age,adress,phone);;
+        (convert_first_maj (string_lowercase name),age,adress,telephone);;
 
 let rec manage_contact f a b = f a b;;
 
-let rec add_contact c = function
-        
+let add_contact (name,age,adress,telephone) = 
+        let c = create_contact (name,age,adress,telephone) in 
+                let rec aux = function
+                        | [] -> []
+                        | ((x,_,_,_) as y)::l when x > name -> y::add_contact
+                                (name,age,adress,telephone) l
+                        | _ ->
+                                (name,age,adress,telephone)::y::l
+                in
+                        aux l
