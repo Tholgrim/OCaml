@@ -1,2 +1,2 @@
 all:
-	ocamlopt game.ml ai.ml main.ml -o bouchon.exe
+	ocamlopt game.ml ai.ml main.ml -o game

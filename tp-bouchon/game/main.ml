@@ -1,20 +1,11 @@
-#use "game.ml";;
-#use "ai.ml";;
+open Game;;
+open Ai;;
 
-let ask_int() =
-        let str = read_line () in
-        let length = String.length str - 1 in
-        int_of_string (
-                if str.[length] = ';' then
-                        String.sub str 0 (length - 1)
-                else
-                        str);;
-
-let get_bet (pl:plate) (a:bool) (b:bool) =
+let get_bet (pl:plate) a (b:bool) =
         if a then
                 play pl b
         else
-                ask_int();;
+                read_int();;
 
 let test_winner (x:game_status) = match x with
         | NotEnded -> false
@@ -26,7 +17,7 @@ let main (a:bool) (b:bool) i =
         let pli = init i in
         display pli;
         let rec aux pl =
-                let n1 = get_bet pl a b and n2 = get_bet pl (not a) b in
+                let n1 = get_bet pl a b and n2 = get_bet pl (not a) (not b) in
                 print_string "--------------------- \n";
                 Printf.printf "P1 > %i \n" n1;
                 Printf.printf "P2 > %i \n" n2;
@@ -40,4 +31,4 @@ let main (a:bool) (b:bool) i =
         in
                 aux pli;;
 
-main true true 100;;
+let _ = main true true 100;;

@@ -1,5 +1,22 @@
-let play (p,g1,g2) isP1 =
+let play pl isP1 =
         if isP1 then
-                (Random.int 2) + 2
+                match pl with
+                | (_,a,_) -> 
+                                if a > 3 then
+                                        3
+                                else
+                                        if a >= 1 then
+                                                1
+                                        else
+                                                0
         else
-                (Random.int 2);;
+                match pl with
+                | (_,_,a) -> 
+                                if a > 3 then
+                                        3
+                                else
+                                        if a >= 1 then
+                                                1
+                                        else
+                                                0;;
+
